@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    
+    <Color x:Key="LeansA1">#8a5387</Color>
+    <Color x:Key="LeansA2">#7a81ff</Color>
+
+    <Color x:Key="LeansI1">#ff6a39</Color>    <!--darkest-->
+    <Color x:Key="LeansI2">#ff8057</Color>
+    <Color x:Key="LeansI3">#ff9674</Color>    <!--lightest-->
+
+    <Color x:Key="GreensA1">#31a27a</Color>
+    <Color x:Key="GreensA2">#007955</Color>
+    <Color x:Key="GreensI1">#009bff</Color>    <!--darkest-->
+    <Color x:Key="GreensI2">#00d0ff</Color>
+    <Color x:Key="GreensI3">#7cffff</Color>    <!--lightest-->
+
+    <Color x:Key="HealthyFatsA1">#2a8aa0</Color>
+    <Color x:Key="HealthyFatsA2">#ff7145</Color>
+    <Color x:Key="HealthyFatsI1">#ffe39b</Color>
+
+    <Color x:Key="CondimentsA1">#df9234</Color>
+    <Color x:Key="CondimentsA2">#47878d</Color>
+    <Color x:Key="CondimentsI1">#98fff6</Color>
+
+
+    
+
+    <!--<Color x:Key="Grey245">#F3F5F7</Color>
+    <Color x:Key="Grey200">#BCCBD4</Color>
+    
+
+    <Color x:Key="Leans245">#ffdbff</Color>
+    <Color x:Key="Leans200">#e477b0</Color>
+    <Color x:Key="Leans100">#8d2461</Color>
+    <Color x:Key="Leans50">#450025</Color>
+
+    <Color x:Key="Greens245">#d2ffca</Color>
+    <Color x:Key="Greens200">#82bc7c</Color>
+    <Color x:Key="Greens100">#488045</Color>
+    <Color x:Key="Greens50">#003b03</Color>
+
+    <Color x:Key="HealthyFats245">#b7e4ff</Color>
+    <Color x:Key="HealthyFats200">#5a8abf</Color>
+    <Color x:Key="HealthyFats100">#034979</Color>
+    <Color x:Key="HealthyFats50">#002f5b</Color>
+
+    <Color x:Key="Condiments245">#ffd4c4</Color>
+    <Color x:Key="Condiments200">#ba8778</Color>
+    <Color x:Key="Condiments100">#73463a</Color>
+    <Color x:Key="Condiments50">#421a10</Color>
+
+    <Color x:Key="Neutral245">#F7F6F3</Color>
+    <Color x:Key="Neutral200">#D5CCBB</Color>
+    <Color x:Key="Neutral100">#7B6C4D</Color>
+    <Color x:Key="Neutral50">#3E3626</Color>-->
+
+
+    <Color x:Key="GeneralBG">#0A1A23</Color>    
+
+    <Color x:Key="Grey100">#4F6979</Color>
+    <Color x:Key="Grey50">#27353D</Color>
+
+    <!--<Color x:Key="GeneralBG">#f5f5f5</Color>-->
+    <Color x:Key="DefaultEntryBG">#f7f7f7</Color>
+    <Color x:Key="DefaultTextColor">#003447</Color>
+    
+</ResourceDictionary>

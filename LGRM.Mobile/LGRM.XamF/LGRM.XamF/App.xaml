@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LGRM.XamF.App"
+             xmlns:converter="clr-namespace:LGRM.XamF.Converters">
+    <Application.Resources>
+
+        <converter:ConverterToEvaluateState x:Key="LocalConverterToEvaluateState"/>
+        <converter:ConvertItemTappedToObject x:Key="LocalConvertItemTappedToObject"/>
+        <converter:ConvertStringToHexColor x:Key="LocalConvertStringToHexColor"/>
+        <converter:ConvertStringToBool x:Key="LocalConvertStringToBool"/>
+
+        <ResourceDictionary Source= "Styles\Colors.xaml">
+            <Color x:Key="DefaultText">#27353D</Color>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="#27353D" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="#27353D" />
+                <Setter Property="BackgroundColor" Value="LightCyan"/>
+                <!--<Setter Property="HeightRequest" Value="20"/>-->
+                <Setter Property="Margin" Value="0"/>
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="TextColor" Value="#27353D" />
+            </Style>
+            <Style TargetType="SearchBar">
+                <Setter Property="TextColor" Value="#27353D" />
+            </Style>
+
+            <!--<Style TargetType="Button">
+                <Setter Property="TextColor" Value="WhiteSmoke" />
+                <Setter Property="HeightRequest" Value="50"/>
+            </Style>-->
+
+            <!--Default Stuff ... -->
+
+            <Color x:Key="Primary">#2196F3</Color>
+
+            <Style TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#332196F3" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>
