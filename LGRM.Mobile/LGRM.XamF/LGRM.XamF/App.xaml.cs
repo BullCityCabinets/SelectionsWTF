@@ -14,12 +14,11 @@ namespace LGRM.XamF
 
         public static ObservableCollection<Grocery> Groceries { get; set; }
 
-        public static bool isLoading = false;
+        //public static bool isLoading = false;
 
         public App()
         {
             InitializeComponent();
-            //CompareVersion();
 
             var createTable = Task.Run(() => MySQLite.CreateTableOfGroceriesAsync());
             createTable.Wait();
@@ -28,23 +27,9 @@ namespace LGRM.XamF
             populateTableFromJson.Wait();
 
             MainPage = new NavigationPage(new LogInPage());
-            
+            //MainPage = new NavigationPage(new GroceriesPage(Kind.Lean));
+
         }
 
-        //public void CompareVersion()
-        //{
-        //    if (!V.DbIsUpdated) // Install SQLites Groceries catalog
-        //    {
-        //        var createTable = Task.Run(() => MySQLite.CreateTableOfGroceriesAsync());
-        //        createTable.Wait();
-
-        //        var populateTableFromJson = Task.Run(() => MySQLite.PopulateTableOfGroceriesAsync(V.ShippedCatalog));
-        //        populateTableFromJson.Wait();
-
-        //        V.UpdateVersion();
-
-        //    }
-
-        //}
     }
 }

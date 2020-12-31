@@ -16,7 +16,7 @@ namespace LGRM.XamF.Views
 
         async void buttonLogIn_ClickedAsync(object sender, EventArgs e)
         {                
-            await Navigation.PushAsync(new CookbookLocalPage());
+            await Navigation.PushAsync(new CookbookPage());
         }
 
 

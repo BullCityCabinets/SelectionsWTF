@@ -1,7 +1,5 @@
 ﻿using System;
 using Xamarin.Forms;
-using SkiaSharp;
-using SkiaSharp.Views.Forms;
 using LGRM.Model;
 using LGRM.XamF.Views.Controls;
 using System.Windows.Input;
@@ -23,8 +21,6 @@ namespace LGRM.XamF.Views
 
         public RecipeIngredientViews(Kind kind)
         {
-            
-
             #region Colors...
             Application.Current.Resources.TryGetValue("LocalConvertStringToHexColor", out var resourceValue);
             var fromHex = (IValueConverter)resourceValue;
@@ -66,7 +62,7 @@ namespace LGRM.XamF.Views
             Application.Current.Resources.TryGetValue("LocalConvertStringToBool", out resourceValue);
             var ToBeVisible = (IValueConverter)resourceValue;
 
-            #region Kind Switch...
+            #region Switch for style by "Kind" of ingredients...
             switch (kind)
             {
                 case Kind.Lean:
@@ -75,7 +71,7 @@ namespace LGRM.XamF.Views
                     colorA2 = colorLA2;
                     headerLabelString = "Leans";
                     itemsSourcePropertyString = "MyLeans";
-                    heightRequestPropertyString = "HeightL";
+                    //heightRequestPropertyString = "HeightL"; //This was used to determine the height of collection views... disabled for debugging.
                     break;
 
                 case Kind.Green:
@@ -83,7 +79,7 @@ namespace LGRM.XamF.Views
                     colorA2 = colorGA2;
                     headerLabelString = "Greens";
                     itemsSourcePropertyString = "MyGreens";
-                    heightRequestPropertyString = "HeightG";
+                    //heightRequestPropertyString = "HeightG";
                     break;
 
                 case Kind.HealthyFat:
@@ -91,7 +87,7 @@ namespace LGRM.XamF.Views
                     colorA2 = colorHA2;
                     headerLabelString = "Healthy Fats";
                     itemsSourcePropertyString = "MyHealthyFats";
-                    heightRequestPropertyString = "HeightH";
+                    //heightRequestPropertyString = "HeightH";
                     break;
 
                 case Kind.Condiment:
@@ -99,7 +95,7 @@ namespace LGRM.XamF.Views
                     colorA2 = colorCA2;
                     headerLabelString = "Condiments";
                     itemsSourcePropertyString = "MyCondiments";
-                    heightRequestPropertyString = "HeightC";
+                    //heightRequestPropertyString = "HeightC";
                     break;
 
                 default:
@@ -113,12 +109,9 @@ namespace LGRM.XamF.Views
 
             #region //     HEADER      \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-            var skiaPainter = new SkiaPainter(kind);
 
             var header = new StackLayout { Orientation = StackOrientation.Horizontal, Spacing = 0, BackgroundColor = colorGeneralBG, HeightRequest = 40, Margin = 0 };
 
-            var canvasL = new SKCanvasView() { HorizontalOptions = LayoutOptions.Fill, WidthRequest = 30 };
-            canvasL.PaintSurface += skiaPainter.OnCanvasPaintSurfaceL;
             var headerLabel = new Label()
             {
                 Text = headerLabelString,
@@ -131,20 +124,18 @@ namespace LGRM.XamF.Views
                 LineBreakMode = LineBreakMode.MiddleTruncation,
                 Padding = new Thickness(10, 0)
             };
-            var canvasR = new SKCanvasView() { HorizontalOptions = LayoutOptions.Fill, WidthRequest = 30 };
-            canvasR.PaintSurface += skiaPainter.OnCanvasPaintSurfaceR;
             
             var headerButtonAddGroceries = new Button() { ImageSource = "baseline_add_circle_white_24x24.png", WidthRequest = 40, BackgroundColor = colorA2, Margin = new Thickness(0, 8, 0, 0), Padding = 3, CornerRadius = 0 };
             headerButtonAddGroceries.Command = new Command(async () => {
                 indicator.IsRunning = true;
-                App.isLoading = true;                                
+                //App.isLoading = true;                                
                 await Application.Current.MainPage.Navigation.PushAsync(new GroceriesPage(kind));                                                 
                 indicator.IsRunning = false;
             });
 
 
-            var canvasR2 = new SKCanvasView() { HorizontalOptions = LayoutOptions.Fill, WidthRequest = 30 };
-            canvasR2.PaintSurface += skiaPainter.OnCanvasPaintSurfaceR2;
+
+
             indicator = new ActivityIndicator() { Color = colorA2, IsRunning = false, BackgroundColor = colorGeneralBG, Margin = new Thickness(0) };
 
             #endregion  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -165,14 +156,20 @@ namespace LGRM.XamF.Views
                 }
             };
             cvIngredients.SetBinding(CollectionView.ItemsSourceProperty, itemsSourcePropertyString);
-            cvIngredients.SetBinding(CollectionView.HeightRequestProperty, heightRequestPropertyString);
+
+
+            //cvIngredients.SetBinding(CollectionView.HeightRequestProperty, heightRequestPropertyString);
+            cvIngredients.HeightRequest = 300;
+
+
+
             #endregion//     COLLECTION CTOR     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             #region //     DATATEMPLATE (Start)   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             cvIngredients.ItemTemplate = new DataTemplate(() =>
             {
                 var OutterStack = new StackLayout() { Margin = new Thickness(0, 0, 0, 8) }; //This creates the gaps between collection items
                 var OutterFrame = new Frame()
-                {                   
+                {
                     IsClippedToBounds = true,
                     CornerRadius = 3,
                     Padding = 0,
@@ -208,40 +205,27 @@ namespace LGRM.XamF.Views
 
 
                 #endregion //     DATATEMPLATE (Start)   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                #region   // DATATEMPLATE: ICON            \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-                //var iconBG = new BoxView { BackgroundColor = colorA2 };
-                //dtGrid.Children.Add(iconBG, 0, 0);
-                //Grid.SetRowSpan(iconBG, 4);
-
+                ///    ICON         \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\       
                 var iIcon = new Image { Margin = 0, VerticalOptions = LayoutOptions.FillAndExpand };
                 iIcon.SetBinding(Image.SourceProperty, "IconName");
                 iIcon.SetBinding(Image.BackgroundColorProperty, "IconColor1", converter: fromHex);
                 dtGrid.Children.Add(iIcon, 0, 0);
-            Grid.SetRowSpan(iIcon, 4); // 3);
+                Grid.SetRowSpan(iIcon, 4); // 3);
 
-                var info1String = new Label() { 
-                    FontSize = fontB, FontAttributes = FontAttributes.Bold, HorizontalTextAlignment = TextAlignment.Center, TextColor = Color.White };
-                info1String.SetBinding(Label.TextProperty, "Info1String");
-                info1String.SetBinding(Label.IsVisibleProperty, "Info1String", converter: ToBeVisible);
-                dtGrid.Children.Add(info1String, 0, 2);
-
-                #endregion //     DATATEMPLATE ICON   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
                 #region    // DATATEMPLATE: NAME & DESC     \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                 var slNamesEtc = new StackLayout() { Padding = new Thickness(3, 0, 0, 0), Spacing = -1 };
                 Grid.SetRowSpan(slNamesEtc, 3);
 
                 var name1Label = new Label { FontSize = fontM, FontAttributes = FontAttributes.Bold, LineBreakMode = LineBreakMode.MiddleTruncation };
                 var name2Label = new Label { FontSize = fontM, LineBreakMode = LineBreakMode.MiddleTruncation };
-                var etcLabel = new Label { FontSize = fontB, LineBreakMode = LineBreakMode.MiddleTruncation };
 
                 name1Label.SetBinding(Label.TextProperty, "Name1");
                 name2Label.SetBinding(Label.TextProperty, "Name2");
-                etcLabel.SetBinding(Label.TextProperty, "EtcString");
+
 
                 slNamesEtc.Children.Add(name1Label);
                 slNamesEtc.Children.Add(name2Label);
-                slNamesEtc.Children.Add(etcLabel);
+
                 dtGrid.Children.Add(slNamesEtc, 1, 0);
 
                 #endregion //    NAME & DESC     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -315,26 +299,17 @@ namespace LGRM.XamF.Views
 
             });
             #endregion//      END DATATEMPLATE        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-            #region //     FOOTER      \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            //var footer = new StackLayout { Orientation = StackOrientation.Horizontal, Spacing = 0, HorizontalOptions = LayoutOptions.Center }; //, BackgroundColor = colorGeneralBG, HeightRequest = 40, Margin = 0 };
-            //footer.Children.Add(new IngredientListSummaryLine(kind, isInHeader: false) {BackgroundColor = colorA1, Padding= new Thickness(0,0,0,8)});
-
-
-
-            #endregion  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
             #region //     COMPOSE ELEMENTS      \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            header.Children.Add(canvasL);
+            
             header.Children.Add(headerLabel);
-            header.Children.Add(canvasR);
             header.Children.Add(headerButtonAddGroceries);
-            header.Children.Add(canvasR2);
             header.Children.Add(indicator);
 
 
             Children.Add(header);
             Children.Add(cvIngredients);
-            //Children.Add(footer);
-
+            
             #endregion  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         }

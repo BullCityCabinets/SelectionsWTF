@@ -13,22 +13,27 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="DataProject\Sample.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="appsettings.json" />
+    <EmbeddedResource Include="DataProject\Sample.json" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.2" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1821" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LGRM.Data\LGRM.Data.csproj" />
-    <ProjectReference Include="..\..\..\LGRM.Model\LGRM.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\CookbookPage.xaml.cs">
+      <DependentUpon>CookbookPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

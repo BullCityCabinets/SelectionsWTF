@@ -7,12 +7,12 @@ using LGRM.Model;
 namespace LGRM.XamF.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CookbookLocalPage : ContentPage
+    public partial class CookbookPage : ContentPage
     {
         readonly Color frameBorderColor = Color.LightSlateGray;
         public int selectedRecipeId { get; set; }
 
-        public CookbookLocalPage()
+        public CookbookPage()
         {
             BindingContext = new CookbookLocalVM();
 

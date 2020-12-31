@@ -68,48 +68,30 @@ namespace LGRM.XamF.Views
             var fontB = Device.GetNamedSize(NamedSize.Body, typeof(Label));
             #endregion Font Sizes...
 
-            //~~~ Toolbar...
-            var ShowSelectedItemsToolbar = new ToolbarItem() { IconImageSource = ImageSource.FromFile("no_icon_18dp.png") }; 
-            ShowSelectedItemsToolbar.SetBinding(ToolbarItem.IconImageSourceProperty, "ShowSelectedItemsButtonIcon");
-            ShowSelectedItemsToolbar.SetBinding(ToolbarItem.CommandProperty, "ShowSelectedItemsCommand");
-
-            ToolbarItems.Add(ShowSelectedItemsToolbar);
-
 
             //~~~ Main Stack...
             var MainStack = new StackLayout();
-            MainStack.BackgroundColor = colorA1;
             Content = MainStack;
 
+            
 
-            //~~~ Search & Sort Header...
-            var searchStack = new StackLayout() { 
-                Orientation = StackOrientation.Horizontal, 
-            };
+            var debugStack = new StackLayout() { Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.Center };
 
-            var pCategory = new Picker {
-                BackgroundColor = colorEntryBG,
-                Margin = new Thickness(0,0,4,0)
-            };
-            pCategory.SetBinding(Picker.ItemsSourceProperty, "Categories");
-            pCategory.SetBinding(Picker.SelectedItemProperty, "SelectedCategory");
-
-
-            var searchBar = new SearchBar
+            var updateCountLabelStart = new Label() { Text = "Update Called " };
+            var updateCountLabel = new Label()
             {
-                Placeholder = "Search...",
-                WidthRequest = 205,
-                Margin = new Thickness(4,0,0,0),
-                TextTransform = TextTransform.Lowercase,
-                BackgroundColor = colorEntryBG
+                VerticalTextAlignment = TextAlignment.Center,
+                Padding = new Thickness(10, 0)
             };
-            searchBar.SetBinding(SearchBar.TextProperty, "SearchQuery");
+            updateCountLabel.SetBinding(Label.TextProperty, "OnMySelectionChangedCommandCalled");
+            var updateCountLabelEnd = new Label() { Text = " times !" };
+
+            debugStack.Children.Add(updateCountLabelStart);
+            debugStack.Children.Add(updateCountLabel);
+            debugStack.Children.Add(updateCountLabelEnd);
 
 
-            searchStack.Children.Add(pCategory);
-            searchStack.Children.Add(searchBar);
 
-            MainStack.Children.Add(searchStack);
 
             //~~~ CollectionView...
             var cvGroceries = new CollectionView()
@@ -118,13 +100,19 @@ namespace LGRM.XamF.Views
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 Margin = new Thickness(8, 4),
                 SelectionMode = SelectionMode.Multiple,                
-                ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Vertical) { ItemSpacing = 8 }
-
+                ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Vertical) { ItemSpacing = 8 },
+                EmptyView = new Label()
+                {
+                    Text = "If no items load, please uninstall and re-install the program, thank-you-very-much",
+                    FontSize = fontM
+                }
             };
             cvGroceries.SetBinding(CollectionView.ItemsSourceProperty, "Groceries");
-            cvGroceries.SetBinding(CollectionView.SelectedItemsProperty, "MySelectedItems", BindingMode.TwoWay);
+
+            //cvGroceries.SetBinding(CollectionView.SelectedItemsProperty, "MySelectedItems", BindingMode.TwoWay);
+            cvGroceries.SetBinding(CollectionView.SelectedItemsProperty, "MySelectedItems", BindingMode.OneWay);
+
             cvGroceries.SetBinding(CollectionView.SelectionChangedCommandProperty, "MySelectionChangedCommand");
-            cvGroceries.SetBinding(CollectionView.FooterProperty, "FooterText");
 
 
             //     DATATEMPLATE    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -137,22 +125,10 @@ namespace LGRM.XamF.Views
                     CornerRadius = 3,
                     Padding = 0,
                     BorderColor = frameBorderColor,
-                    Margin = 0
+                    Margin = 0,
+                    BackgroundColor = Color.Transparent
                 };
 
-                ///    VISUAL STATES   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ https://forums.xamarin.com/discussion/179464/visual-state-manager-setter-in-code-behind
-
-                var vsgF = new VisualStateGroup() { Name = "vsgF" };
-                var vsNormalF = new VisualState { Name = "Normal" };
-                var vsSelectedF = new VisualState { Name = "Selected" };
-
-                vsNormalF.Setters.Add(new Setter { Property = Frame.BackgroundColorProperty, Value = Color.White });
-                vsSelectedF.Setters.Add(new Setter { Property = Frame.BackgroundColorProperty, Value = Color.LightBlue });
-
-                vsgF.States.Add(vsNormalF);
-                vsgF.States.Add(vsSelectedF);
-
-                VisualStateManager.GetVisualStateGroups(OutterFrame).Add(vsgF);
 
                 ///    GRID            \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\       
                 var dtGrid = new Grid
@@ -238,7 +214,9 @@ namespace LGRM.XamF.Views
             });
             ///    ... end DataTemplate      //////////////////////////////////////////////////////////
 
-            App.isLoading = false; // This is also set at the end of GroceriesVM (I assume this one is more important)
+            //App.isLoading = false; // This is also set at the end of GroceriesVM (I assume this one is more important)
+            
+            MainStack.Children.Add(debugStack);
             MainStack.Children.Add(cvGroceries);
 
 

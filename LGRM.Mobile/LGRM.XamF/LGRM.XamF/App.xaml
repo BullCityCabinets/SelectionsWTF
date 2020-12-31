@@ -6,7 +6,7 @@
     <Application.Resources>
 
         <converter:ConverterToEvaluateState x:Key="LocalConverterToEvaluateState"/>
-        <converter:ConvertItemTappedToObject x:Key="LocalConvertItemTappedToObject"/>
+        <!--<converter:ConvertItemTappedToObject x:Key="LocalConvertItemTappedToObject"/>-->
         <converter:ConvertStringToHexColor x:Key="LocalConvertStringToHexColor"/>
         <converter:ConvertStringToBool x:Key="LocalConvertStringToBool"/>
 
